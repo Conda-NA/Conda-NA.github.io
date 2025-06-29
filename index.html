@@ -3,34 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mentor Hub - Your 24/7 Career Growth Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AI Mentor Hub - Career Growth Engine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #d946ef;
+            --dark: #0f172a;
+        }
         
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8fafc;
+            scroll-behavior: smooth;
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+        }
+        
+        .dark-gradient {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
         }
         
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .transition-all {
+        .pricing-card {
             transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .feature-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff8a00, #e52e71);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        
+        .web3-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .web3-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+        }
+        
+        .skill-bar {
+            height: 6px;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
@@ -40,10 +110,10 @@
                     </div>
                 </div>
                 <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-8">
-                    <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Home</a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Resources</a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">About</a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Contact</a>
+                    <a href="#home" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                    <a href="#features" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Features</a>
+                    <a href="#analyzer" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Analyzer</a>
+                    <a href="#pricing" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
                 </div>
                 <div class="-mr-2 flex items-center sm:hidden">
                     <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false" onclick="toggleMobileMenu()">
@@ -55,35 +125,35 @@
         </div>
         
         <!-- Mobile menu -->
-        <div class="hidden sm:hidden" id="mobile-menu">
+        <div class="mobile-menu sm:hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
-                <a href="#" class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
-                <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Resources</a>
-                <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">About</a>
-                <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Contact</a>
+                <a href="#home" class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="#features" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Features</a>
+                <a href="#analyzer" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Analyzer</a>
+                <a href="#pricing" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Pricing</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <div class="gradient-bg text-white">
+    <div id="home" class="gradient-bg text-white">
         <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
             <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                AI-Powered Career Growth <span class="block">AI Mentor Hub</span>
+                AI-Powered Career Growth
             </h1>
-            <p class="mt-6 max-w-lg mx-auto text-xl">
+            <p class="mt-4 max-w-lg mx-auto text-xl opacity-90">
                 Your 24/7 career growth engine powered by real industry data
             </p>
-            <div class="mt-10 flex justify-center">
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                 <div class="inline-flex rounded-md shadow">
-                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50">
-                        Explore Resources
+                    <a href="#analyzer" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition-colors">
+                        Analyze Your Profile
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
-                <div class="ml-3 inline-flex">
-                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 bg-opacity-60 hover:bg-opacity-70">
-                        Learn More
+                <div class="inline-flex">
+                    <a href="#pricing" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-500 bg-opacity-80 hover:bg-opacity-90 transition-colors">
+                        See Premium Plans
                     </a>
                 </div>
             </div>
@@ -94,9 +164,9 @@
     <section class="py-12 bg-indigo-50">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold">Trusted by Developers at</h2>
+          <h2 class="text-3xl font-bold text-gray-800">Trusted by Developers at</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-8 items-center">
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-8 items-center">
           <div class="flex justify-center opacity-70">
             <i class="fab fa-microsoft text-4xl text-gray-700"></i>
           </div>
@@ -119,57 +189,28 @@
       </div>
     </section>
 
-    <!-- Social Proof Section -->
-    <section class="py-12 bg-indigo-50">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold">Trusted by Developers at</h2>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-8 items-center">
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-microsoft text-4xl text-gray-700"></i>
-          </div>
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-google text-4xl text-gray-700"></i>
-          </div>
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-ethereum text-4xl text-gray-700"></i>
-          </div>
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-gitlab text-4xl text-gray-700"></i>
-          </div>
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-aws text-4xl text-gray-700"></i>
-          </div>
-          <div class="flex justify-center opacity-70">
-            <i class="fab fa-npm text-4xl text-gray-700"></i>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Coming Soon Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Features Section -->
+    <div id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center">
             <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
                 Career Acceleration Features
             </h2>
-            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            <p class="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
                 Real-time job market analysis + GitHub optimization = Smarter career moves
             </p>
         </div>
         
-        <div class="mt-12 grid gap-8 lg:grid-cols-3">
-            <!-- Coming Soon Card 1 -->
+        <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Feature Card 1 -->
             <div class="bg-white overflow-hidden shadow rounded-lg transition-all card-hover">
-                <div class="px-4 py-5 sm:p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                            <i class="fas fa-pen-fancy text-white text-xl"></i>
+                <div class="px-5 py-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-indigo-100 rounded-lg p-3">
+                            <i class="fas fa-chart-line text-indigo-600 text-xl"></i>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-5">
                             <h3 class="text-lg font-medium text-gray-900">Skills Dashboard</h3>
-                            <p class="mt-1 text-sm text-gray-500">
+                            <p class="mt-2 text-gray-600">
                                 Visual heatmaps showing your skills vs. industry demand
                             </p>
                         </div>
@@ -177,16 +218,16 @@
                 </div>
             </div>
             
-            <!-- Coming Soon Card 2 -->
+            <!-- Feature Card 2 -->
             <div class="bg-white overflow-hidden shadow rounded-lg transition-all card-hover">
-                <div class="px-4 py-5 sm:p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
-                            <i class="fas fa-lightbulb text-white text-xl"></i>
+                <div class="px-5 py-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-purple-100 rounded-lg p-3">
+                            <i class="fas fa-lightbulb text-purple-600 text-xl"></i>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-5">
                             <h3 class="text-lg font-medium text-gray-900">AI Project Generator</h3>
-                            <p class="mt-1 text-sm text-gray-500">
+                            <p class="mt-2 text-gray-600">
                                 Get custom project ideas using trending tech stacks
                             </p>
                         </div>
@@ -194,16 +235,16 @@
                 </div>
             </div>
             
-            <!-- Coming Soon Card 3 -->
+            <!-- Feature Card 3 -->
             <div class="bg-white overflow-hidden shadow rounded-lg transition-all card-hover">
-                <div class="px-4 py-5 sm:p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-pink-500 rounded-md p-3">
-                            <i class="fas fa-tools text-white text-xl"></i>
+                <div class="px-5 py-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-pink-100 rounded-lg p-3">
+                            <i class="fas fa-tools text-pink-600 text-xl"></i>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-5">
                             <h3 class="text-lg font-medium text-gray-900">GitHub DNA Scan</h3>
-                            <p class="mt-1 text-sm text-gray-500">
+                            <p class="mt-2 text-gray-600">
                                 AI critique of your repos with optimization tips
                             </p>
                         </div>
@@ -214,34 +255,39 @@
     </div>
 
     <!-- GitHub Analyzer Section -->
-    <section class="py-16 bg-white">
+    <section id="analyzer" class="py-16 bg-white">
       <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Analyze Your GitHub Profile</h2>
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900">Analyze Your GitHub Profile</h2>
+          <p class="mt-3 text-gray-600 max-w-xl mx-auto">
+            Get personalized insights to boost your developer career
+          </p>
+        </div>
         
         <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <div class="flex flex-col md:flex-row gap-6">
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">GitHub Username</label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="github-username" class="block text-sm font-medium text-gray-700 mb-2">GitHub Username</label>
               <div class="flex">
                 <input 
                   id="github-username"
                   type="text"
-                  class="flex-1 border-gray-300 rounded-l-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  class="flex-1 border-gray-300 rounded-l-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
                   placeholder="your-github-username"
                 >
                 <button 
                   onclick="analyzeProfile()"
-                  class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 transition"
+                  class="bg-indigo-600 text-white px-4 py-3 rounded-r-lg hover:bg-indigo-700 transition-colors flex items-center"
                 >
-                  Analyze
+                  Analyze <i class="fas fa-search ml-2"></i>
                 </button>
               </div>
-              <p class="mt-2 text-sm text-gray-500">We'll never store your data</p>
+              <p class="mt-2 text-sm text-gray-500">We'll never store your data without permission</p>
             </div>
             
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">AI Focus Area</label>
-              <select class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <div>
+              <label for="focus-area" class="block text-sm font-medium text-gray-700 mb-2">AI Focus Area</label>
+              <select id="focus-area" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3">
                 <option>Job Readiness (Default)</option>
                 <option>Web3 Transition</option>
                 <option>Quantum Computing Prep</option>
@@ -256,40 +302,158 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Dynamic results will appear here -->
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Web3 Section -->
+    <section class="py-16 dark-gradient text-white">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center bg-indigo-800 px-4 py-1 rounded-full mb-4">
+            <i class="fas fa-cube mr-2"></i>
+            <span>NEW WEB3 FEATURES</span>
+          </div>
+          <h2 class="text-3xl font-bold mb-4">Earn Skill NFTs</h2>
+          <p class="max-w-3xl mx-auto text-xl opacity-90">
+            Verify and showcase your expertise with blockchain-based credentials
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="web3-card p-6 rounded-xl">
+            <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-medal"></i>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Skill Verification</h3>
+            <p class="opacity-80">Earn NFTs by completing challenges and proving your expertise</p>
+          </div>
           
-          <div class="mt-8 text-center">
-            <button id="pro-cta" class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition">
-              <i class="fas fa-crown mr-2"></i>Unlock Full AI Analysis ($9/month)
-            </button>
+          <div class="web3-card p-6 rounded-xl">
+            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Digital Portfolio</h3>
+            <p class="opacity-80">Showcase verifiable credentials in your digital wallet</p>
+          </div>
+          
+          <div class="web3-card p-6 rounded-xl">
+            <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-coins"></i>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Earn Royalties</h3>
+            <p class="opacity-80">Get paid when employers verify your skills</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">Power Up Your Career</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Join thousands of developers accelerating their growth
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <!-- Free Tier -->
+          <div class="bg-white border rounded-xl shadow-sm pricing-card">
+            <div class="p-6 border-b">
+              <h3 class="font-bold text-lg text-gray-900">Explorer</h3>
+              <div class="mt-4">
+                <span class="text-4xl font-bold text-gray-900">Free</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Basic GitHub analysis</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Monthly trend report</li>
+                <li class="flex items-start"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> AI career roadmap</li>
+                <li class="flex items-start"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> NFT skill credentials</li>
+              </ul>
+              <button class="mt-8 w-full py-3 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors">
+                Get Started
+              </button>
+            </div>
+          </div>
+          
+          <!-- Pro Tier -->
+          <div class="bg-white border-2 border-indigo-500 rounded-xl shadow-lg pricing-card relative">
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 text-white px-4 py-1 rounded-full text-sm">
+              Most Popular
+            </div>
+            <div class="bg-indigo-500 text-white p-6 rounded-t-xl">
+              <h3 class="font-bold text-lg">AI Accelerator</h3>
+              <div class="mt-4">
+                <span class="text-4xl font-bold">$9</span>
+                <span class="text-indigo-200">/month</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Full GitHub DNA analysis</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Personalized AI roadmap</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Salary optimization reports</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> NFT skill credentials</li>
+              </ul>
+              <button class="mt-8 w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                Start 7-Day Trial
+              </button>
+            </div>
+          </div>
+          
+          <!-- Enterprise Tier -->
+          <div class="bg-white border rounded-xl shadow-sm pricing-card">
+            <div class="p-6 border-b">
+              <h3 class="font-bold text-lg text-gray-900">Enterprise</h3>
+              <div class="mt-4">
+                <span class="text-4xl font-bold text-gray-900">$29</span>
+                <span class="text-gray-500">/month</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> All Pro features</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Team management</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Custom AI models</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Dedicated support</li>
+              </ul>
+              <button class="mt-8 w-full py-3 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors">
+                Contact Sales
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Newsletter Section -->
-    <div class="bg-gray-50">
+    <div class="bg-white">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center">
             <div class="lg:w-0 lg:flex-1">
                 <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                     Stay updated
                 </h2>
                 <p class="mt-3 max-w-3xl text-lg leading-6 text-gray-500">
-                    Sign up for our newsletter to be the first to know when we publish new content.
+                    Sign up for our newsletter to be the first to know about new features and career insights.
                 </p>
             </div>
             <div class="mt-8 lg:mt-0 lg:ml-8">
-                <form class="sm:flex">
+                <form class="sm:flex" id="newsletter-form">
                     <label for="email-address" class="sr-only">Email address</label>
                     <input id="email-address" name="email" type="email" autocomplete="email" required class="w-full px-5 py-3 border border-gray-300 shadow-sm placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs rounded-md" placeholder="Enter your email">
                     <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                        <button type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Notify me
+                        <button type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                            Subscribe
                         </button>
                     </div>
                 </form>
                 <p class="mt-3 text-sm text-gray-500">
                     We care about your data. Read our
-                    <a href="#" class="text-indigo-600 font-medium underline">
+                    <a href="#" class="text-indigo-600 font-medium underline hover:text-indigo-800">
                         Privacy Policy
                     </a>.
                 </p>
@@ -297,304 +461,100 @@
         </div>
     </div>
 
-    <!-- GitHub Analyzer Section -->
-    <section class="py-16 bg-white">
-      <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Analyze Your GitHub Profile</h2>
-        
-        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <div class="flex flex-col md:flex-row gap-6">
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">GitHub Username</label>
-              <div class="flex">
-                <input 
-                  id="github-username"
-                  type="text"
-                  class="flex-1 border-gray-300 rounded-l-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                  placeholder="your-github-username"
-                >
-                <button 
-                  onclick="analyzeProfile()"
-                  class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 transition"
-                >
-                  Analyze
-                </button>
-              </div>
-              <p class="mt-2 text-sm text-gray-500">We'll never store your data</p>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">AI Mentor Hub</h3>
+                    <p class="text-sm mb-4">Your AI-powered career growth engine for the modern developer.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-sm hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#pricing" class="text-sm hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Tutorials</a></li>
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-sm hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-700 mb-2">AI Focus Area</label>
-              <select class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option>Job Readiness (Default)</option>
-                <option>Web3 Transition</option>
-                <option>Quantum Computing Prep</option>
-                <option>AI Ethics Compliance</option>
-              </select>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm">
+                    &copy; 2025 AI Mentor Hub. All rights reserved.
+                </p>
             </div>
-          </div>
-        </div>
-
-        <!-- Results Container -->
-        <div id="results-container" class="mt-8 hidden">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Dynamic results will appear here -->
-          </div>
-          
-          <div class="mt-8 text-center">
-            <button id="pro-cta" class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition">
-              <i class="fas fa-crown mr-2"></i>Unlock Full AI Analysis ($9/month)
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-16 bg-gray-50">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-2">Power Up Your Career</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">Join thousands of developers accelerating their growth</p>
-        
-        <div class="grid md:grid-cols-3 gap-8 mt-12 max-w-5xl mx-auto">
-          <!-- Free Tier -->
-          <div class="border rounded-xl bg-white">
-            <div class="p-6 border-b">
-              <h3 class="font-bold text-lg">Explorer</h3>
-              <div class="mt-4">
-                <span class="text-4xl font-bold">Free</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Basic GitHub analysis</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Monthly trend report</li>
-                <li class="flex"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> AI career roadmap</li>
-                <li class="flex"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> NFT skill credentials</li>
-              </ul>
-              <button class="mt-8 w-full py-2 border border-indigo-600 text-indigo-600 rounded-lg">
-                Get Started
-              </button>
-            </div>
-          </div>
-          
-          <!-- Pro Tier -->
-          <div class="border-2 border-indigo-500 rounded-xl bg-white transform scale-105 shadow-lg">
-            <div class="bg-indigo-500 text-white p-6 rounded-t-xl">
-              <h3 class="font-bold text-lg">AI Accelerator</h3>
-              <div class="mt-4">
-                <span class="text-4xl font-bold">$9</span>
-                <span class="text-gray-200">/month</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Full GitHub DNA analysis</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Personalized AI roadmap</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Salary optimization reports</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> NFT skill credentials</li>
-              </ul>
-              <button class="mt-8 w-full py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
-                Start 7-Day Trial
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Web3 Section -->
-    <section class="py-16 bg-gradient-to-br from-gray-900 to-indigo-900 text-white">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <div class="inline-flex items-center bg-indigo-800/30 px-4 py-1 rounded-full mb-4">
-          <i class="fas fa-cube mr-2"></i>
-          <span>NEW WEB3 FEATURES</span>
-        </div>
-        <h2 class="text-3xl font-bold mb-6">Earn Skill NFTs</h2>
-        <p class="max-w-3xl mx-auto text-xl opacity-90">
-          Verify and showcase your expertise with blockchain-based credentials
-        </p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-medal"></i>
-            </div>
-            <h3 class="font-bold text-lg">Skill Verification</h3>
-            <p class="mt-2 opacity-80">Earn NFTs by completing challenges</p>
-          </div>
-          
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-wallet"></i>
-            </div>
-            <h3 class="font-bold text-lg">Digital Portfolio</h3>
-            <p class="mt-2 opacity-80">Showcase verifiable credentials in your wallet</p>
-          </div>
-          
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-coins"></i>
-            </div>
-            <h3 class="font-bold text-lg">Earn Royalties</h3>
-            <p class="mt-2 opacity-80">Get paid when employers verify your skills</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-16 bg-gray-50">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-2">Power Up Your Career</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">Join thousands of developers accelerating their growth</p>
-        
-        <div class="grid md:grid-cols-3 gap-8 mt-12 max-w-5xl mx-auto">
-          <!-- Free Tier -->
-          <div class="border rounded-xl bg-white">
-            <div class="p-6 border-b">
-              <h3 class="font-bold text-lg">Explorer</h3>
-              <div class="mt-4">
-                <span class="text-4xl font-bold">Free</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Basic GitHub analysis</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Monthly trend report</li>
-                <li class="flex"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> AI career roadmap</li>
-                <li class="flex"><i class="fas fa-times text-gray-300 mt-1 mr-2"></i> NFT skill credentials</li>
-              </ul>
-              <button class="mt-8 w-full py-2 border border-indigo-600 text-indigo-600 rounded-lg">
-                Get Started
-              </button>
-            </div>
-          </div>
-          
-          <!-- Pro Tier -->
-          <div class="border-2 border-indigo-500 rounded-xl bg-white transform scale-105 shadow-lg">
-            <div class="bg-indigo-500 text-white p-6 rounded-t-xl">
-              <h3 class="font-bold text-lg">AI Accelerator</h3>
-              <div class="mt-4">
-                <span class="text-4xl font-bold">$9</span>
-                <span class="text-gray-200">/month</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Full GitHub DNA analysis</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Personalized AI roadmap</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> Salary optimization reports</li>
-                <li class="flex"><i class="fas fa-check text-green-500 mt-1 mr-2"></i> NFT skill credentials</li>
-              </ul>
-              <button class="mt-8 w-full py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
-                Start 7-Day Trial
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Web3 Section -->
-    <section class="py-16 bg-gradient-to-br from-gray-900 to-indigo-900 text-white">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <div class="inline-flex items-center bg-indigo-800/30 px-4 py-1 rounded-full mb-4">
-          <i class="fas fa-cube mr-2"></i>
-          <span>NEW WEB3 FEATURES</span>
-        </div>
-        <h2 class="text-3xl font-bold mb-6">Earn Skill NFTs</h2>
-        <p class="max-w-3xl mx-auto text-xl opacity-90">
-          Verify and showcase your expertise with blockchain-based credentials
-        </p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-medal"></i>
-            </div>
-            <h3 class="font-bold text-lg">Skill Verification</h3>
-            <p class="mt-2 opacity-80">Earn NFTs by completing challenges</p>
-          </div>
-          
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-wallet"></i>
-            </div>
-            <h3 class="font-bold text-lg">Digital Portfolio</h3>
-            <p class="mt-2 opacity-80">Showcase verifiable credentials in your wallet</p>
-          </div>
-          
-          <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <i class="fas fa-coins"></i>
-            </div>
-            <h3 class="font-bold text-lg">Earn Royalties</h3>
-            <p class="mt-2 opacity-80">Get paid when employers verify your skills</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white">
-        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-                <div class="px-5 py-2">
-                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                        Home
-                    </a>
-                </div>
-                <div class="px-5 py-2">
-                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                        About
-                    </a>
-                </div>
-                <div class="px-5 py-2">
-                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                        Resources
-                    </a>
-                </div>
-                <div class="px-5 py-2">
-                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                        Contact
-                    </a>
-                </div>
-                <div class="px-5 py-2">
-                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                        Privacy
-                    </a>
-                </div>
-            </nav>
-            <div class="mt-8 flex justify-center space-x-6">
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Facebook</span>
-                    <i class="fab fa-facebook-f text-xl"></i>
-                </a>
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Twitter</span>
-                    <i class="fab fa-twitter text-xl"></i>
-                </a>
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">GitHub</span>
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-            </div>
-            <p class="mt-8 text-center text-base text-gray-400">
-                &copy; 2023 AI Mentor Hub. All rights reserved.
-            </p>
         </div>
     </footer>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="scroll-top bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-colors">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            menu.classList.toggle('active');
+            
+            if (menu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+        
         // GitHub Analyzer Functions
         function analyzeProfile() {
           const username = document.getElementById('github-username').value;
-          if(!username) return;
+          if(!username) {
+            alert('Please enter your GitHub username');
+            return;
+          }
           
           // Show loading state
           const container = document.getElementById('results-container');
-          container.innerHTML = `<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-3xl text-indigo-600"></i></div>`;
+          container.innerHTML = `
+            <div class="col-span-3 text-center py-12">
+              <i class="fas fa-spinner fa-spin text-3xl text-indigo-600"></i>
+              <p class="mt-4">Analyzing your GitHub profile...</p>
+            </div>
+          `;
           container.classList.remove('hidden');
           
           // Simulate API delay
@@ -603,9 +563,12 @@
         
         function showResults(username) {
           const container = document.getElementById('results-container');
+          const focus = document.getElementById('focus-area').value;
+          
           container.innerHTML = `
             <div class="col-span-3 text-center mb-6">
               <h3 class="text-xl font-bold">Analysis for <span class="text-indigo-600">${username}</span></h3>
+              <p class="text-gray-600">Focus: ${focus}</p>
               <div class="w-24 h-1 bg-indigo-500 mx-auto mt-2 rounded"></div>
             </div>
             
@@ -633,43 +596,63 @@
             </div>
             
             <div class="md:col-span-3 text-center mt-8">
-              <button id="pro-cta" class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition">
+              <button id="pro-cta" class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all hover:from-purple-700 hover:to-indigo-800 flex items-center justify-center mx-auto">
                 <i class="fas fa-crown mr-2"></i>Unlock Full AI Analysis ($9/month)
               </button>
-              <p class="mt-4 text-sm text-gray-600">Free report shows 3 basic metrics. Pro version includes:<br>
-                <span class="inline-block mt-2">
-                  <i class="fas fa-check-circle text-green-500 mr-1"></i>Personalized learning roadmap 
-                  <i class="fas fa-check-circle text-green-500 mx-2"></i>Salary optimization report 
-                  <i class="fas fa-check-circle text-green-500 mx-2"></i>Recruiter visibility boost
-                </span>
-              </p>
             </div>
           `;
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('menu-icon');
-            
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                menu.classList.add('hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
         }
         
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const menu = document.getElementById('mobile-menu');
+                    const icon = document.getElementById('menu-icon');
+                    if (menu.classList.contains('active')) {
+                        menu.classList.remove('active');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
             });
+        });
+        
+        // Scroll to top button
+        const scrollButton = document.getElementById('scroll-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollButton.classList.add('visible');
+            } else {
+                scrollButton.classList.remove('visible');
+            }
+        });
+        
+        scrollButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Newsletter form submission
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email-address').value;
+            if (email) {
+                alert(`Thank you for subscribing with ${email}! You'll receive our updates soon.`);
+                document.getElementById('email-address').value = '';
+            }
         });
     </script>
 </body>
